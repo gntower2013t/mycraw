@@ -1,0 +1,46 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "@eimobile/localize": [
+        "libs/ei-mobile/localize/src/public_api"
+      ],
+      "@eimobile/keycloak": [
+        "libs/ei-mobile/keycloak/src/public_api"
+      ],
+      "@eimobile/ei-components": [
+        "libs/ei-mobile/ei-components/src/public_api"
+      ],
+      "@eimobile/uct-forms": [
+        "libs/ei-mobile/uct-forms/src/public_api"
+      ],
+      "@fhir/angular": [
+        "libs/fhir-client-lib/angular/src/public_api"
+      ],
+      "@fhir/core": [
+        "libs/fhir-client-lib/core/src/public_api"
+      ],
+      "@fhir/model": [
+        "libs/fhir-client-lib/model/src/public_api"
+      ],
+      "@eimobile/lazy-view": [
+        "libs/ei-mobile/lazy-view/src/public_api"
+      ]
+    }
+  }
+}

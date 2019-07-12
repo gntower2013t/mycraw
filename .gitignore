@@ -1,0 +1,17 @@
+node_modules/
+node_modules
+.vscode
+dist/
+*.patch
+target/
+*.log
+.flattened-pom.xml
+node/
+apps/ei-web/.scannerwork
+reports/
+.settings/
+*~
+*.swp
+.classpath
+.project
+*.current
