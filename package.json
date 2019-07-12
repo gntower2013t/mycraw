@@ -1,11 +1,13 @@
 {
   "name": "crawler",
   "version": "0.0.0",
-  "scripts": {
-  },
+  "scripts": {},
   "private": true,
   "dependencies": {
+    "better-sqlite3": "^5.4.0",
     "crawler": "^1.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^12.6.2"
+  }
 }
