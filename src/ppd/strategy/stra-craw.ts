@@ -1,6 +1,6 @@
 import * as Crawler from "crawler";
 import { SList, convert } from "./strategy.model";
-import { knex } from "./db";
+import { knex } from "../db";
 
 const pageSize = 100
 const formData = {

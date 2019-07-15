@@ -1,4 +1,4 @@
-import { knex } from "./db";
+import { knex } from "../db";
 
 knex.schema.createTable('strategy', function (table) {
   table.increments()
