@@ -23,7 +23,7 @@ export class Strategy {
   // isOpen: boolean
 }
 
-const sExample: Strategy =
+export const sExample: Strategy =
 {
   "strategyId": 1068,
   "strategyTitle": "Ganesha象神一号",
@@ -51,7 +51,7 @@ const sExample: Strategy =
   "runDays": 576
 }
 
-const converters = {
+export const converters = {
   bidAmountAverage(input: number) {
     return Math.round(input / 10000)
   },
@@ -66,20 +66,6 @@ const converters = {
 
 function toPercent(input: number) {
   return input*100
-}
-
-export function convert(raw: any): Strategy {
-  const output: any = {}
-  Object.keys(sExample).forEach(prop => {
-    // bidAmountAverage
-    const fn = converters[prop]
-    if (fn) {
-      output[prop] = fn(raw[prop])
-    } else {
-      output[prop]=raw[prop]
-    }
-  })
-  return output
 }
 
 

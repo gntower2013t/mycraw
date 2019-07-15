@@ -1,6 +1,7 @@
 import * as Crawler from "crawler";
-import { SList, convert } from "./strategy.model";
+import { SList, sExample, converters } from "./strategy.model";
 import { knex } from "../db";
+import { convert } from "../util";
 
 const pageSize = 100
 const formData = {
@@ -35,7 +36,7 @@ function reqPage(index: number) {
 }
 
 let init = true;
-var c = new Crawler({
+const c = new Crawler({
   // maxConnections: 10,
   rateLimit: 100,
   // proxy: "http://127.0.0.1:8888",
@@ -61,7 +62,7 @@ var c = new Crawler({
 
       rr.strategyList.forEach(str => {
         console.log(str.strategyId);
-        knex('strategy').insert(convert(str)).then(
+        knex('strategy').insert(convert(str, sExample, converters)).then(
           // () => console.log('success'),
           () => { },
           err => { console.log(err); knex.destroy() },
