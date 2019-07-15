@@ -36,12 +36,6 @@ const bidEx: Bid = {
   "currentRate": 18
 }
 
-console.log(
-
-
-  new Date("2019/06/30 23:09:11").getFullYear()
-  );
-
 export function convertBid(raw: any): Bid{
   return convert(raw, bidEx, {
     bidDateTime(value: string) {

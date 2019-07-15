@@ -11,3 +11,7 @@ export function convert<T>(raw: any, sExample:T, converters:any): T {
   })
   return output
 }
+
+export function toPercent(input: number) {
+  return input*100
+}

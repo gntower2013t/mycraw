@@ -1,3 +1,4 @@
+import { toPercent } from "../util";
 
 export interface SList {
   totalCount: number;
@@ -64,9 +65,7 @@ export const converters = {
 
 }
 
-function toPercent(input: number) {
-  return input*100
-}
+
 
 
 // const s: Strategy = sExample;
