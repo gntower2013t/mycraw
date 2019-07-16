@@ -15,3 +15,7 @@ export function convert<T>(raw: any, sExample:T, converters:any): T {
 export function toPercent(input: number) {
   return input*100
 }
+
+export function toWang(input: number) {
+  return Math.round(input / 10000)
+}

@@ -1,4 +1,4 @@
-import { convert, toPercent } from "../util";
+import { convert, toPercent, toWang } from "../util";
 
 const ex: StaMonth = {
   strategyId: 889,
@@ -16,6 +16,24 @@ const ex: StaMonth = {
   "overdueRate90AverageStr": "--",
   "satisfyOverdue30ListingCount": 0,
   "satisfyOverdue90ListingCount": 0
+}
+
+const exRealMini: StaReal = {
+  strategyId: 8455,
+  "realOverdueRate30Average": 0.0057,
+  "realOverdueRate90Average": 0.005,
+  "realBidRateAverage": 0.1576,
+  "realBidAmountAverage": 27408.31,
+  "realBidDurationAverage": 9,
+}
+
+export interface StaReal {
+  strategyId: number,
+  realOverdueRate30Average: number;
+  realOverdueRate90Average: number;
+  realBidRateAverage: number;
+  realBidAmountAverage: number;
+  realBidDurationAverage: number;
 }
 
 interface StaMonth{
@@ -44,14 +62,26 @@ export interface StaMonthList{
   list: StaMonth[]
 }
 
+export function convertStaReal(raw: any, id: number): StaReal {
+  const data = convert(raw, exRealMini, {
+    "realOverdueRate30Average": toPercent,
+    "realOverdueRate90Average": toPercent,
+    "realBidRateAverage": toPercent,
+    realBidAmountAverage: toWang,
+  })
+
+  data.strategyId = id
+  return data
+}
+
 export function convertData(raw: any, id:number): StaMonth{
   const data = convert(raw, ex, {
     dateMonth(value: string) {
       return new Date(value)
     },
     bidRateAverage: toPercent,
-    overdueRate30Average:toPercent,
-    overdueRate90Average:toPercent,
+    overdueRate30Average: toPercent,
+    overdueRate90Average: toPercent,
   })
 
   data.strategyId = id
