@@ -64,8 +64,3 @@ export const converters = {
   feeRate: toPercent,
 
 }
-
-
-
-
-// const s: Strategy = sExample;

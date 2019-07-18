@@ -32,7 +32,7 @@ export interface StaReal {
   realOverdueRate30Average: number;
   realOverdueRate90Average: number;
   realBidRateAverage: number;
-  realBidAmountAverage: number;
+  realBidAmountAverage: number; //日均投标
   realBidDurationAverage: number;
 }
 
@@ -67,7 +67,8 @@ export function convertStaReal(raw: any, id: number): StaReal {
     "realOverdueRate30Average": toPercent,
     "realOverdueRate90Average": toPercent,
     "realBidRateAverage": toPercent,
-    realBidAmountAverage: toWang,
+    //update: 留小数点
+    realBidAmountAverage: input => input / 10000.0,
   })
 
   data.strategyId = id

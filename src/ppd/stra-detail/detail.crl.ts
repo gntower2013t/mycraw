@@ -49,7 +49,7 @@ function reqIdReal(id: number) {
   return req
 }
 
-let init = true;
+
 const c = new Crawler({
   // maxConnections: 10,
   rateLimit: 100,

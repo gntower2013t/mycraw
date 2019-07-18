@@ -19,7 +19,8 @@ const reqTemplate = {
   headers: {
     Origin: "https://invstrat.ppdai.com",
     // accept: "application/json, text/plain, */*",
-    // "content-type": "application/x-www-form-urlencoded"
+    // "content-type": "application/x-www-form-urlencoded",
+    // "Accept-Encoding": "gzip, deflate, br",
   },
   form: {
     Target: "strategyList-queryStrategyListNew",
