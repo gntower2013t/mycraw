@@ -4,6 +4,7 @@ export const knex = knexInit({
   client: 'sqlite3',
   connection: {
     filename: "../ppd.db"
-  }
+  },
+  // useNullAsDefault: true
 });
 

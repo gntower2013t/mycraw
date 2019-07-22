@@ -55,6 +55,42 @@ const blackItemEx: BlackItem = {
   // "title": "手机app用户的第6次闪电借款"
 }
 
+const bidzzEx:BidZZ = {
+  "debtDealId": 256537358,
+  "creditCode": "B",  //原标等级
+  "listingId": 319744082,
+  "currentRate": 18,
+  "owingPrincipal": 200,
+  "priceForSale": 49.08,
+  "closeBidDate": new Date("2019-07-15 13:42:10"),
+  "statusId": 4  //无用, 4=已转让 ?
+}
+
+//dueType: 2 正逾期
+export interface BidZZ {
+  debtDealId: number;
+  creditCode: string;
+  listingId: number;
+  currentRate: number;
+  owingPrincipal: number;
+  priceForSale: number;
+  closeBidDate: Date;
+  statusId: number;
+}
+
+export function convertBidZZ(raw: any): BidZZ {
+  return convert(raw, bidzzEx, {
+    closeBidDate: v => new Date(v)
+  })
+}
+
+export interface BidZZList{
+  "total": number
+  "pageNo": number
+  // "pageSize": 10,
+  items: BidZZ[]
+}
+
 export interface BlackItem {
   borrowerName: string;
   overduePrincipal: number;
@@ -109,6 +145,7 @@ export function convertBidItem(raw: any): BidItem {
     bidDate: v => new Date(v)
   })
 }
+
 export function convertPayoffItem(raw: any): PayoffItem {
   return convert(raw, payoffItemEx, {
     bidDate: v => new Date(v)

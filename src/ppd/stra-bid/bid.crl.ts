@@ -1,5 +1,5 @@
 import { cookie, createCrawler } from "../req";
-import { BidList, convertBidItem, PayoffList, convertPayoffItem, BlackList, convertBlackItem } from "./bid.model";
+import { BidList, convertBidItem, PayoffList, convertPayoffItem, BlackList, convertBlackItem, BidZZList, convertBidZZ } from "./bid.model";
 import { knex } from "../db";
 
 
@@ -54,6 +54,18 @@ const blackListReq = {
     Cookie: cookie
   },
 }
+const bidZZReq = {
+  uri: 'https://transfer.ppdai.com/api/debt/pcApplyDebtService/getTransferedList',
+  method: "POST",
+  // strictSSL: false,
+  referer: "https://transfer.ppdai.com/menu/transferrecords/recordsWithSummaryNew",
+  headers: {
+    Origin: "https://transfer.ppdai.com",
+    "Content-Type": "application/json;charset=UTF-8",
+    "X-PPD-APPID": "PPDAI_PERSON",
+    Cookie: cookie
+  },
+}
 
 //resultContent
 
@@ -61,23 +73,35 @@ let init = true;
 
 const onRes = res => {
   // replace
-  const rr: BlackList = JSON.parse(res.body).resultContent
-  console.log(`total: ${rr.page.totalRecord} in page ${rr.page.totalPage}`);
+  const rr: BidZZList = JSON.parse(res.body).resultContent
+  console.log(`total: ${rr.total} of page ${rr.pageNo}`);
+  // console.log(`total: ${rr.page.totalRecord} in page ${rr.page.totalPage}`);
 
-  rr.scatterBlacklistRecordInfoList.forEach(bid => {
+  rr.items.forEach(bid => {
     console.log(bid.listingId);
   // replace
-    knex('bid_black').insert(convertBlackItem(bid)).then(
+/*     knex('bid_zz').insert(convertBidZZ(bid)).then(
       // () => console.log('success'),
       () => { },
+      err => { console.log(err); knex.destroy() },
+    ) */
+
+    //update
+    const listingId = bid.listingId
+    knex('bid_zz').where({ listingId }).update({ dueType: 2 })
+    .then(
+      () => console.log('success'),
+      // () => { },
       err => { console.log(err); knex.destroy() },
     )
   })
 
   if (init) {
-    for (let index = 2; index <= rr.page.totalPage; index++) {
+    const tPage = Math.ceil(rr.total / 10)
+    //  rr.page.totalPage
+    for (let index = 2; index <= tPage; index++) {
   // replace
-      c.queue(reqBlackPage(index))
+      c.queue(bidZZPage(index))
     }
     init = false
   }
@@ -95,10 +119,14 @@ function reqBlackPage(index: number) {
   return req
 }
 
+function bidZZPage(index: number) {
+  const body = `{"pageIndex":${index},"pageSize":10,"listType":"","listTypeTwo":"","dueType":2}`
+  return {...bidZZReq, body}
+}
 
 const c = createCrawler(onRes);
   // replace
-c.queue(reqBlackPage(1));
+c.queue(bidZZPage(1));
 
 // 2019-07-19
 // 回款列表: total: 10162 in page 102
