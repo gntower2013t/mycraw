@@ -5,6 +5,7 @@ export const knex = knexInit({
   connection: {
     filename: "../ppd.db"
   },
+  acquireConnectionTimeout: 1000000
   // useNullAsDefault: true
 });
 
