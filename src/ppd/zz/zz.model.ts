@@ -46,7 +46,71 @@ export interface ZZApply {
   priceForSale: number;
 }
 
+const preApplyEx = {
+  "listingId": 316310693,
+  "preDebtDealId": 0,
+  "priceForSaleRate": 18,
+  "allowanceRadio": 0,
+  // "rateMinMultiples": null,
+  // "rateMaxMultiples": null,
+  "priceForSale": 154.33,
+  // "defaultPriceforsale": null,
+  // "minRate": 18,
+  // "maxRate": 36,
+  "currentCreditCode": "G"
+}
 
+export interface PreResult {
+  listingId: number;
+  preDebtDealId: number;
+  priceForSaleRate: number;
+  allowanceRadio: number;
+  priceForSale: number;
+  currentCreditCode: string;
+}
+
+const preApplyRequest = {
+  "dueType": 1,
+  "preApplyRequestList": [
+    {
+      "listingId": 318397473,
+      "preDebtDealId": 0,
+      "saleRate": 0,
+      "priceForSale": null
+    }
+  ]
+}
+
+export class PreApplyRequestItem {
+  saleRate: number = 0;
+  priceForSale: number = null;
+
+  constructor(public listingId: number,
+    public preDebtDealId: number
+  ) { }
+}
+
+export class PreApplyRequest {
+  dueType: number = 1;
+  preApplyRequestList: PreApplyRequestItem[] = [];
+}
+
+
+export interface ToApplyItem {
+  listingId: number;
+  preDebtDealId: number;
+  priceForSaleRate: number;
+  allowanceRadio: number;
+  priceForSale: number;
+}
+
+export class ToApplyRequest {
+  dueType: number = 1;
+  verifyCode: string = '';
+  items: ToApplyItem[] = [];
+}
+
+// 已转出
 const bidzzEx: BidZZ = {
   "debtDealId": 256537358,
   "creditCode": "B",  //原标等级
