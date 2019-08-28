@@ -162,8 +162,10 @@ c.on('drain', function () {
       owingNumber, leftRepayDay,
     })
   }));
-  console.log(toApply.map(r=>r.item.listingId).join('\n'));
+
   console.log(`to apply totoal: ${toApply.length}`);
+  console.log("items:");
+  console.log(JSON.stringify(toApply.map(r=>r.item)));
 
   if (doApply) {
     for (let i = 0; i < toApply.length; i += 30) {
