@@ -80,7 +80,7 @@ function onPre(res) {
     } else if (code === 'E' ||
       code === 'F' || code === 'G') {
       toApply.push({ item, zz, code })
-    } else if (zz.pastDueNumber > 0) {
+    } else if (zz.pastDueDay > 2) {
       toApply.push({ item, zz })
     }
 
