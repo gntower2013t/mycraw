@@ -21,7 +21,8 @@ function apply(items: ToApplyItem[]) {
   return { ...applyReq, body: JSON.stringify(req), limiter:'slow'}
 }
 
-const toApply = [{"listingId":314456888,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":155.52},{"listingId":314461317,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":155.52},{"listingId":325636163,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":255.36},{"listingId":325675037,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":280.86},{"listingId":325602397,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":187.25},{"listingId":325625440,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":280.86},{"listingId":325626119,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":280.86},{"listingId":319658752,"preDebtDealId":0,"priceForSaleRate":0.18,"allowanceRadio":0,"priceForSale":171.38}]
+const toApply =
+  [{ "listingId": 315770106, "preDebtDealId": 0, "priceForSaleRate": 0.22, "allowanceRadio": 0, "priceForSale": 52.26 }]
 
 for (let i = 0; i < toApply.length; i += 30) {
   console.log(`to apply ${i} - ${i + 30}`);

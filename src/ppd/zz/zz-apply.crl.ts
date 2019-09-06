@@ -66,7 +66,11 @@ function onPre(res) {
     const code = result.currentCreditCode
     const zz = data.find(r => r.listingId === result.listingId)
 
-    // if (short) {
+    if (short && zz.owingNumber === 3 && zz.leftRepayDay <= leftDay) {
+      toApply.push({ item })
+      return
+    }
+
     if (zz.owingNumber === 3) {
       if (zz.pastDueDay > 2 || code === 'G') {
         toApply.push({ item, zz, code })
@@ -77,7 +81,8 @@ function onPre(res) {
       if (zz.pastDueDay > 3 && (code === 'F' || code === 'G')) {
         toApply.push({ item, zz, code })
       }
-    } else if (code === 'E' ||
+    } else if (
+      // code === 'E' ||
       code === 'F' || code === 'G') {
       toApply.push({ item, zz, code })
     } else if (zz.pastDueDay > 2) {
@@ -140,8 +145,8 @@ function apply(items: ToApplyItem[]) {
 const c = createCrawler(onRes);
 c.setLimiterProperty('slow', 'rateLimit', 10000)
 
-// const short = false
-const leftDay = 2
+const short = true
+const leftDay = 1
 const doApply = false
 c.queue(bidApplyPage(1));
 

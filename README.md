@@ -7,5 +7,5 @@
 ## DB History
 1. bid-zz  债转-已转出
 2. 0816 bid-receive 正常待收列表
-3. 0816 zz-apply  债转-正常收款中列表 (待收时间表)
-
+3. 0816 zz-apply  债转-未逾期列表 (待收时间表)
+4. 0903 更新: zz_apply, bid-receive

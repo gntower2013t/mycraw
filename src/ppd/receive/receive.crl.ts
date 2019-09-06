@@ -18,7 +18,7 @@ const req = {
 }
 
 function getPage(index: number) {
-  const body = `{"request":{"pay":null,"currentStatus":null,"startDate":"2019-08-16","endDate":"2019-09-15",`
+  const body = `{"request":{"pay":null,"currentStatus":null,"startDate":"2019-09-05","endDate":"2019-10-04",`
     + `"page":{"targetPage":${index},"pageSize":100}}}`
   return {...req, body}
 }
@@ -68,3 +68,6 @@ c.queue(getPage(1));
 
 //2019-08-16
 //待收回 8286(8288) 期，待收回本金： 210,225.26 元，利息： 18,234.50 元
+
+//2019-09-05 to 2019-10-04
+//待收回 7022 期，待收回本金： 210,225.26 元，利息： 18,234.50 元
