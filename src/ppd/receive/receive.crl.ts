@@ -18,7 +18,7 @@ const req = {
 }
 
 function getPage(index: number) {
-  const body = `{"request":{"pay":null,"currentStatus":null,"startDate":"2019-09-05","endDate":"2019-10-04",`
+  const body = `{"request":{"pay":null,"currentStatus":null,"startDate":"2019-09-09","endDate":"2019-09-09",`
     + `"page":{"targetPage":${index},"pageSize":100}}}`
   return {...req, body}
 }
@@ -34,7 +34,7 @@ const onRes = res => {
   rr.scatterOwingRecordInfoList.forEach(bid => {
     // console.log(bid.listingId);
   // replace
-    knex('bid_receive').insert(convertItem(bid)).then(
+    knex('bid_receive_0908').insert(convertItem(bid)).then(
       // () => console.log('success'),
       () => { cnt++ },
       err => {

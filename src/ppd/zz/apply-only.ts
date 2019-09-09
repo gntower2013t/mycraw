@@ -22,7 +22,7 @@ function apply(items: ToApplyItem[]) {
 }
 
 const toApply =
-  [{ "listingId": 315770106, "preDebtDealId": 0, "priceForSaleRate": 0.22, "allowanceRadio": 0, "priceForSale": 52.26 }]
+  [{ "listingId": 316094287, "preDebtDealId": 0, "priceForSaleRate": 0.22, "allowanceRadio": 0, "priceForSale": 104.54 }, { "listingId": 316116281, "preDebtDealId": 0, "priceForSaleRate": 0.18, "allowanceRadio": 0, "priceForSale": 103.7 }]
 
 for (let i = 0; i < toApply.length; i += 30) {
   console.log(`to apply ${i} - ${i + 30}`);

@@ -1,6 +1,6 @@
 import { knex } from "../db";
 
-knex.schema.createTable('bid_receive', function (table) {
+knex.schema.createTable('bid_receive_0908', function (table) {
   table.increments()
   table.date("dueDate")
   table.integer("listingId");

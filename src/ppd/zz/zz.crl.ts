@@ -39,10 +39,13 @@ const onRes = res => {
   const rr: ZZApplyList = JSON.parse(res.body).resultContent
   console.log(`total: ${rr.total} of page ${rr.pageNo}`);
 
-  rr.items.forEach(bid => {
+  rr.items
+    .filter(bid => bid.leftRepayDay === 1)
+    .forEach(bid => {
     // console.log(bid.listingId);
   // replace
-    knex('zz_apply').insert(convertZZApply(bid)).then(
+
+    knex('zz_apply_0908').insert(convertZZApply(bid)).then(
       () => { cnt++ },
       err => {
         console.log(err);
@@ -51,12 +54,11 @@ const onRes = res => {
     )
 
   })
-  console.log(`cnt ${cnt}`);
 
 
   if (init) {
-    const tPage =
-       Math.ceil(rr.total / 30)
+    const tPage = 8
+      //  Math.ceil(rr.total / 30)
       // rr.page.totalPage
     for (let index = 2; index <= tPage; index++) {
   // replace
@@ -74,13 +76,19 @@ function bidZZPage(index: number) {
 
 //"rate":"","minPrincipal":"","maxPrincipal":"","sort":7, "owingNumberList":null,"dueDayList":null,"overDueDayList":null
 function bidApplyPage(index: number) {
-  const body = `{"dueType":1,"pageIndex":${index},"pageSize":30,"levelList":["A","B","C","D"]}`
+  const body = `{"dueType":1,"pageIndex":${index},"pageSize":30,"levelList":["A","B","C","D"],"sort":7}`
   return {...bidApplyReq, body}
 }
 
 const c = createCrawler(onRes);
   // replace
 c.queue(bidApplyPage(1));
+
+c.on('drain', function () {
+  setInterval(()=>{
+    console.log(`cnt ${cnt}`);
+  }, 1000)
+})
 
 // 2019-07-19
 // 正常收款中列表: total: 10162 in page 102

@@ -58,11 +58,11 @@ const blackItemEx: BlackItem = {
 
 export interface BlackItem {
   borrowerName: string;
-  overduePrincipal: number;
-  repayAmount: number;
-  principal: number;
+  overduePrincipal: number; //逾期本金(截止当前期)
+  repayAmount: number; //已收金额
+  principal: number; //投标金额
   overdueDays: number;
-  maxOverdueDays: number;
+  maxOverdueDays: number; //曾逾期最大天数
   listingId: number;
 }
 
@@ -103,7 +103,7 @@ export interface PayoffList {
 }
 
 export interface BlackList {
-  scatterBlacklistRecordInfoList: PayoffItem[];
+  scatterBlacklistRecordInfoList: BlackItem[];
   page: Page
 }
 

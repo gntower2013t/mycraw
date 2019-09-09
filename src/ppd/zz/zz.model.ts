@@ -22,6 +22,44 @@ const applyEx: ZZApply = {
   "priceForSale": 13.25
 }
 
+const zzBadEx: ZZBad = {
+  "listingId": 132579883,
+  "currentRate": 16.0,
+  // "vouch": 0,
+  // "isPay": false,
+  "creditCode": "A",
+  "owingNumber": 3, //剩余期数
+  "nextRepayDate": new Date("2019-08-19 19:01:38"),
+  // "leftRepayDay": 2,
+  "owingPrincipal": 13.25,
+  "owingInterest": 0.35, //总待收利息
+  "preDebtdealId": 215044319,
+  // "valuation": 1.0005, //??
+  "tnumber": 12, //总期数 "number"
+  // "rateMinMultiples": 1.0,
+  // "rateMaxMultiples": 2.0,
+  "pastDueNumber": 1, //曾逾期期数
+  "pastDueDay": 1,
+  "currentDueDay": -2,
+  "priceForSale": 13.25
+}
+
+export interface ZZBad {
+  listingId: number;
+  currentRate: number;
+  creditCode: string;
+  owingNumber: number;
+  tnumber: number;
+  nextRepayDate: Date;
+  currentDueDay: number;
+  owingPrincipal: number;
+  owingInterest: number;
+  preDebtdealId: number;
+  pastDueNumber: number;
+  pastDueDay: number;
+  priceForSale: number;
+}
+
 interface Page{
   pageNo: number;
   total: number;
@@ -29,6 +67,9 @@ interface Page{
 
 export interface ZZApplyList extends Page {
   items: ZZApply[]
+}
+export interface ZZBadList extends Page {
+  items: ZZBad[]
 }
 
 export interface ZZApply {
@@ -143,6 +184,12 @@ export function convertBidZZ(raw: any): BidZZ {
 export function convertZZApply(raw: any): ZZApply {
   return convert(raw, applyEx, {
     nextRepayDate: v => new Date(v)
+  })
+}
+export function convertZZBad(raw: any): ZZBad {
+  return convert(raw, zzBadEx, {
+    nextRepayDate: v => new Date(v),
+    tnumber: _ => raw["number"]
   })
 }
 

@@ -89,16 +89,16 @@ let init = true;
 let cnt: number = 0;
 
 const onRes = res => {
-  // replace
-  const rr: BidList = JSON.parse(res.body).resultContent
+  // replace: BlackList BidList
+  const rr: BlackList = JSON.parse(res.body).resultContent
   // console.log(`total: ${rr.total} of page ${rr.pageNo}`);
   console.log(`total: ${rr.page.totalRecord} in page ${rr.page.targetPage} of ${rr.page.totalPage}`);
 
-  rr.scatterNormalRecordInfoList.forEach(bid => {
+  rr.scatterBlacklistRecordInfoList.forEach(bid => {
     // console.log(bid.listingId);
     // idSet.add(bid.listingId)
-  // replace
-    knex('bid_list').insert(convertBidItem(bid)).then(
+  // replace: convertBlackItem  convertBidItem
+    knex('bid_black').insert(convertBlackItem(bid)).then(
       // () => console.log('success'),
       () => { cnt++ },
       err => {
@@ -117,7 +117,6 @@ const onRes = res => {
     ) */
   })
   // console.log(`set ${idSet.size}`);
-  console.log(`cnt ${cnt}`);
 
 
   if (init) {
@@ -126,7 +125,7 @@ const onRes = res => {
       rr.page.totalPage
     for (let index = 2; index <= tPage; index++) {
   // replace
-      c.queue(reqPage(index))
+      c.queue(reqBlackPage(index))
     }
     init = false
   }
@@ -155,9 +154,16 @@ function bidApplyPage(index: number) {
   return {...bidApplyReq, body}
 }
 
-const c = createCrawler();
+const c = createCrawler(onRes);
   // replace
-c.queue(bidApplyPage(1));
+c.queue(reqBlackPage(1));
+
+c.on('drain', function () {
+  setInterval(()=>{
+    console.log(`cnt ${cnt}`);
+  }, 1000)
+})
+
 
 // 2019-07-19
 // 正常收款中列表: total: 10162 in page 102
@@ -166,3 +172,5 @@ c.queue(bidApplyPage(1));
 // 2019-08-16
 //正常收款中列表 9768 笔，待收回本金： 1,341,552.13 元，利息： 94,155.91 元
   //最后投标日期: 07-25
+
+//09-07  黑名单 更新
