@@ -7,7 +7,6 @@ target/
 *.log
 .flattened-pom.xml
 node/
-apps/ei-web/.scannerwork
 reports/
 .settings/
 *~
@@ -15,3 +14,4 @@ reports/
 .classpath
 .project
 *.current
+*.db
