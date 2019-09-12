@@ -66,8 +66,10 @@ function onPre(res) {
     const code = result.currentCreditCode
     const zz = data.find(r => r.listingId === result.listingId)
 
-    if (short && zz.owingNumber === 3 && zz.leftRepayDay <= leftDay) {
-      toApply.push({ item })
+    if (short) {
+      if (zz.owingNumber === 3 && zz.leftRepayDay <= leftDay) {
+        toApply.push({ item })
+      }
       return
     }
 
@@ -145,7 +147,7 @@ function apply(items: ToApplyItem[]) {
 const c = createCrawler(onRes);
 c.setLimiterProperty('slow', 'rateLimit', 10000)
 
-const short = true
+const short = false
 const leftDay = 1
 const doApply = false
 c.queue(bidApplyPage(1));
