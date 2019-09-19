@@ -73,7 +73,7 @@ function onPre(res) {
       return
     }
 
-    if (zz.owingNumber === 3) {
+/*     if (zz.owingNumber === 3) {
       if (zz.pastDueDay > 2 || code === 'G') {
         toApply.push({ item, zz, code })
       } else if (zz.pastDueNumber > 0 && (code === 'E' || code === 'F')) {
@@ -84,12 +84,17 @@ function onPre(res) {
         toApply.push({ item, zz, code })
       }
     } else if (
-      code === 'E' ||
+      // code === 'E' ||
       code === 'F' || code === 'G') {
       toApply.push({ item, zz, code })
     } else if (zz.pastDueDay > 2) {
       toApply.push({ item, zz })
+    } */
+
+    if (zz.owingNumber > 2 &&　code === 'G') {
+      toApply.push({ item, zz, code })
     }
+
 
   })
 
@@ -148,9 +153,9 @@ const c = createCrawler(onRes);
 c.setLimiterProperty('slow', 'rateLimit', 10000)
 
 const short = false
-const leftDay = 1
+const leftDay = 15
 const doApply = false
-c.queue(bidApplyPage(1));
+c.queue(bidApplyPage(27));
 
 c.on('drain', function () {
   if (!init) {

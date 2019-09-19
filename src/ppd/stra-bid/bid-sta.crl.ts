@@ -1,4 +1,3 @@
-import * as Crawler from "crawler";
 import { knex } from "../db";
 import { StaBidList, convertBid } from "./bid-sta.model";
 import { cookie, createCrawler } from "../req";
@@ -6,9 +5,8 @@ import { cookie, createCrawler } from "../req";
 const pageSize = 100
 const formData = {
   "pageNum": 1, pageSize, "type": 2,
-  "beginTime": "2019-07-01", "endTime": "2019-07-15"
+  "beginTime": "2019-07-15", "endTime": "2019-07-15"
 }
-//0401-0630 0701-0715
 
 const reqTemplate = {
   uri: 'https://strategy.ppdai.com/forward/forwardreq',
@@ -37,18 +35,25 @@ function reqPage(index: number) {
 }
 
 let init = true;
+let cnt = 0
 
 const onRes = res => {
   const rr: StaBidList = JSON.parse(res.body).data
   console.log(`total: ${rr.totalSize} in page ${rr.totalPage}`);
 
   rr.bidList.forEach(bid => {
-    console.log(bid.listingid);
-    knex('stra_bid').insert(convertBid(bid)).then(
-      // () => console.log('success'),
-      () => { },
-      err => { console.log(err); knex.destroy() },
-    )
+
+    knex('stra_bid').where({
+      listingId: bid.listingid
+    }).select('listingId').then(r => {
+      if (r.length === 0) {
+        knex('stra_bid').insert(convertBid(bid)).then(
+          () => cnt++,
+          err => { console.log(err); knex.destroy() },
+        )
+      }
+    })
+
   })
 
   if (init) {
@@ -60,11 +65,12 @@ const onRes = res => {
 }
 
 const c = createCrawler(onRes);
-
-// Queue just one URL, with default callback
 c.queue(reqTemplate);
 
-process.on('exit', () => {
-  console.log("end===");
-  knex.destroy()
-});
+c.on('drain', function () {
+  setInterval(()=>{
+    console.log(`cnt ${cnt}`);
+  }, 1000)
+})
+
+//0401-0630 0701-0715 0716-0801
