@@ -91,10 +91,13 @@ function onPre(res) {
       toApply.push({ item, zz })
     } */
 
-    if (zz.owingNumber > 2 &&　code === 'G') {
+    if (zz.owingNumber <= 2) {
+      if (zz.pastDueDay > 3 && (code === 'F' || code === 'G')) {
+        toApply.push({ item, zz, code })
+      }
+    } else if (zz.owingNumber > 2 && (code === 'F' || code === 'G')) {
       toApply.push({ item, zz, code })
     }
-
 
   })
 
@@ -150,12 +153,11 @@ function apply(items: ToApplyItem[]) {
 }
 
 const c = createCrawler(onRes);
-c.setLimiterProperty('slow', 'rateLimit', 10000)
 
 const short = false
 const leftDay = 15
-const doApply = false
-c.queue(bidApplyPage(27));
+const doApply = true
+c.queue(bidApplyPage(1));
 
 c.on('drain', function () {
   if (!init) {

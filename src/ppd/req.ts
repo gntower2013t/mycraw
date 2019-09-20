@@ -25,7 +25,7 @@ export function createCrawler(
       if (error) {
         console.error(error);
       } else {
-        console.log("Code: "+ res.statusCode);
+        // console.log("Code: "+ res.statusCode);
         // console.log(res.body);
         onRes(res);
       }
@@ -36,5 +36,7 @@ export function createCrawler(
     ...options
   }
 
-  return new Crawler(opt)
+  const c = new Crawler(opt)
+  c.setLimiterProperty('slow', 'rateLimit', 45000)
+  return c;
 }

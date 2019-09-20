@@ -4,6 +4,7 @@ import {
   PreResult, ZZApply, ToApplyItem, ToApplyRequest
 } from "./zz.model";
 import { zzListReq, apply, preApplyReq, preApply, doApply } from "./common";
+import { knex } from "../db";
 
 
 let page = 0
@@ -25,16 +26,30 @@ const onRes = res => {
   }
   //res.request.uri.  //path, hostname, href
 
+  console.log("on list");
+
   const rr: ZZApplyList = JSON.parse(res.body).resultContent
-  if (page === 0) {
-    console.log(`total: ${rr.total} of page ${rr.pageNo}`);
-  }
   const tPage = Math.ceil(rr.total / 30)
+  console.log(`total: ${rr.total}, page ${rr.pageNo} of ${tPage}`);
+
+  let items = rr.items.filter(bid => bid.leftRepayDay <= leftDay && bid.owingNumber > 2);
+
+  knex.select('s.listingid').from('stra_bid as s').innerJoin('strategy as ss', 's.strategyTitle', 'ss.strategyTitle')
+    .whereIn('ss.id', [966, 1003, 998])
+    .whereIn('s.listingid', items.map(bid => bid.listingId))
+    .then(r => {
+      console.log(`ignore: ${r.map(v => v.listingid)}`);
+      ignores.push(...r.map(v => v.listingid))
+
+      items = items.filter(it => !r.find(v => it.listingId === v.listingId))
+      if (items.length > 0) {
+        c.queue(preApply(items))
+      }
+
+    })
+
 
   const target = rr.items.find(bid => bid.leftRepayDay > leftDay)
-  c.queue(preApply(rr.items))
-
-
   if (!target && rr.pageNo < tPage) {
     page = rr.pageNo + 1
     c.queue(getZZListPage(page))
@@ -43,6 +58,7 @@ const onRes = res => {
 }
 
 const toApply: any[] = []
+const ignores = []
 
 function onPre(res) {
   const rr: PreResult[] = JSON.parse(res.body).resultContent.items
@@ -57,10 +73,7 @@ function onPre(res) {
 
     // const code = result.currentCreditCode
     const zz = data.find(r => r.listingId === result.listingId)
-
-    if (zz.owingNumber > 2) {
-      toApply.push({ item, zz })
-    }
+    toApply.push({ item, zz })
   })
 
 }
@@ -74,11 +87,11 @@ function getZZListPage(index: number) {
 
 
 const c = createCrawler(onRes);
-c.setLimiterProperty('slow', 'rateLimit', 30000)
 
-const leftDay = 6
-const dryrun = true
+const leftDay = 10
+const dryrun = false
 c.queue(getZZListPage(1));
+
 
 let init = true;
 c.on('drain', function () {
@@ -88,7 +101,7 @@ c.on('drain', function () {
 
   console.log(`last page ${page}`);
 
-  const check = toApply
+/*   const check = toApply
     // r.zz.leftRepayDay !== 2 ||
     .filter(r => r.zz.leftRepayDay !== leftDay || r.zz.owingNumber <= 2)
   console.log("check apply: " + check.length);
@@ -103,14 +116,18 @@ c.on('drain', function () {
       listingId, code: r.code, pastDueNumber, pastDueDay,
       owingNumber, leftRepayDay,
     })
-    }));
+  })); */
 
-  console.log(`to apply totoal: ${toApply.length}`);
+  console.log(`to apply total: ${toApply.length}`);
+  console.log(`ignore : ${ignores}`);
+  console.log(`to apply : ${toApply.map(it=>it.item.listingId)}`);
   // console.log("items:");
   // console.log(JSON.stringify(toApply.map(r=>r.item)));
   if (!dryrun) {
     doApply(c, toApply)
   }
+  knex.destroy()
+
 
   init = false
 });

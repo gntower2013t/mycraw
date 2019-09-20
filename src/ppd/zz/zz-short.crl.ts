@@ -36,9 +36,7 @@ function onList(res) {
   const rr: ZZApplyList = JSON.parse(res.body).resultContent
 
   const tPage = Math.ceil(rr.total / 30)
-  if (page === 0) {
-    console.log(`total: ${rr.total}, page ${rr.pageNo} of ${tPage}`);
-  }
+  console.log(`total: ${rr.total}, page ${rr.pageNo} of ${tPage}`);
 
   const items = rr.items.filter(bid => bid.leftRepayDay >= leftDay && bid.owingNumber < 3)
   c.queue(preApply(items))
@@ -78,9 +76,8 @@ function getZZListPage(index: number) {
 
 
 const c = createCrawler(onRes);
-c.setLimiterProperty('slow', 'rateLimit', 30000)
 
-const leftDay = 29
+const leftDay = 20
 const dryrun = false
 c.queue(getZZListPage(1));
 
