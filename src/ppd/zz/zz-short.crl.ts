@@ -38,8 +38,10 @@ function onList(res) {
   const tPage = Math.ceil(rr.total / 30)
   console.log(`total: ${rr.total}, page ${rr.pageNo} of ${tPage}`);
 
-  const items = rr.items.filter(bid => bid.leftRepayDay >= leftDay && bid.owingNumber < 3)
-  c.queue(preApply(items))
+  const items = rr.items.filter(bid => bid.leftRepayDay >= leftDay)
+  if (items.length > 0) {
+    c.queue(preApply(items))
+  }
 
   const target = rr.items.find(bid => bid.leftRepayDay < leftDay)
   if (!target && rr.pageNo < tPage) {
@@ -77,8 +79,8 @@ function getZZListPage(index: number) {
 
 const c = createCrawler(onRes);
 
-const leftDay = 20
-const dryrun = false
+const leftDay = 5
+const dryrun = true
 c.queue(getZZListPage(1));
 
 let init = true;
@@ -88,13 +90,13 @@ c.on('drain', function () {
   }
 
   console.log(`last page ${page}`);
-  console.log(`to apply totoal: ${toApply.length}`);
-  console.log(`to apply : ${toApply.map(r=>r.item.listingId)}`);
+  console.log(`to apply totoal: ${toApply.length},
+    ${toApply.map(it => it.item.priceForSale).reduce((acc, curr) => acc + curr)}`);
+  // console.log(`to apply : ${toApply.map(r=>r.item.listingId)}`);
 
   const check = toApply
     .filter(r => r.zz.leftRepayDay < leftDay || r.zz.owingNumber > 2)
   console.log("mismatch: " + check.length);
-
 
 
   if (!dryrun) {

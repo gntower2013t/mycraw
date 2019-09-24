@@ -88,8 +88,8 @@ function getZZListPage(index: number) {
 
 const c = createCrawler(onRes);
 
-const leftDay = 10
-const dryrun = false
+const leftDay = 30
+const dryrun = true
 c.queue(getZZListPage(1));
 
 
@@ -118,9 +118,10 @@ c.on('drain', function () {
     })
   })); */
 
-  console.log(`to apply total: ${toApply.length}`);
+  console.log(`to apply total: ${toApply.length},
+    ${toApply.map(it => it.item.priceForSale).reduce((acc, curr) => acc + curr)}`);
   console.log(`ignore : ${ignores}`);
-  console.log(`to apply : ${toApply.map(it=>it.item.listingId)}`);
+  // console.log(`to apply : ${toApply.map(it=>it.item.listingId)}`);
   // console.log("items:");
   // console.log(JSON.stringify(toApply.map(r=>r.item)));
   if (!dryrun) {
