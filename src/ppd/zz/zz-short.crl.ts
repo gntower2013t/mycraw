@@ -80,7 +80,7 @@ function getZZListPage(index: number) {
 const c = createCrawler(onRes);
 
 const leftDay = 5
-const dryrun = true
+const dryrun = false
 c.queue(getZZListPage(1));
 
 let init = true;

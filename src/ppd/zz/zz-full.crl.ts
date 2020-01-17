@@ -27,12 +27,13 @@ const onRes = res => {
   //res.request.uri.  //path, hostname, href
 
   console.log("on list");
+  // console.log(res.body);
 
   const rr: ZZApplyList = JSON.parse(res.body).resultContent
   const tPage = Math.ceil(rr.total / 30)
   console.log(`total: ${rr.total}, page ${rr.pageNo} of ${tPage}`);
 
-  let items = rr.items.filter(bid => bid.leftRepayDay <= leftDay && bid.owingNumber > 2);
+  let items = rr.items.filter(bid => bid.leftRepayDay <= leftDay && bid.owingNumber > 7);
 
   knex.select('s.listingid').from('stra_bid as s').innerJoin('strategy as ss', 's.strategyTitle', 'ss.strategyTitle')
     .whereIn('ss.id', [966, 1003, 998])
@@ -88,8 +89,8 @@ function getZZListPage(index: number) {
 
 const c = createCrawler(onRes);
 
-const leftDay = 30
-const dryrun = true
+const leftDay = 11
+const dryrun = false
 c.queue(getZZListPage(1));
 
 

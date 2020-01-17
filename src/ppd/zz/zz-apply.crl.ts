@@ -155,8 +155,8 @@ function apply(items: ToApplyItem[]) {
 const c = createCrawler(onRes);
 
 const short = false
-const leftDay = 15
-const doApply = true
+const leftDay = 8
+const doApply = false
 c.queue(bidApplyPage(1));
 
 c.on('drain', function () {

@@ -2,7 +2,7 @@ import { knex } from "../db";
 
 //散标出借记录
 
-/* knex.schema.createTable('bid_list', function (table) {
+knex.schema.createTable('bid_list_temp', function (table) {
   table.increments()
   table.date("bidDate")
   table.decimal("owingAmount");
@@ -11,7 +11,7 @@ import { knex } from "../db";
   table.integer("listingId");
   table.decimal("rate");
   table.decimal("repayAmount");
-}) */
+})
 
 /* knex.schema.createTable('bid_payoff', function (table) {
   table.increments()
@@ -22,7 +22,7 @@ import { knex } from "../db";
   table.decimal("repayAmount");
 }) */
 
-knex.schema.createTable('bid_black', function (table) {
+/* knex.schema.createTable('bid_black', function (table) {
   table.increments()
   table.string("borrowerName");
   table.decimal("overduePrincipal");
@@ -32,7 +32,7 @@ knex.schema.createTable('bid_black', function (table) {
   table.integer("maxOverdueDays");
   table.integer("listingId");
 })
-
+ */
   .then(() => {
     console.log('success');
     knex.destroy()

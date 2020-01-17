@@ -40,7 +40,7 @@ const onRes = res => {
   console.log(`total: ${rr.total} of page ${rr.pageNo}`);
 
   rr.items
-    .filter(bid => bid.leftRepayDay === 1)
+    // .filter(bid => bid.leftRepayDay === 1)
     .forEach(bid => {
     // console.log(bid.listingId);
   // replace
@@ -57,8 +57,8 @@ const onRes = res => {
 
 
   if (init) {
-    const tPage = 8
-      //  Math.ceil(rr.total / 30)
+    const tPage =
+       Math.ceil(rr.total / 30)
       // rr.page.totalPage
     for (let index = 2; index <= tPage; index++) {
   // replace
